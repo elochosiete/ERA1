@@ -63,17 +63,13 @@
 			font-size: 20px;
   			border-radius: 10px;
   			border:none;
-		}
-
-		@keyframes expand-textarea{
-			from{height: 20px; width: 600px;}
-			to{height:500px; width: 1200px;}
+  			transition: 0.5s;
 		}
 
 		#intro form textarea:focus{
-			animation-name: expand-textarea;
-  			animation-duration: 0.5s;
-  			animation-fill-mode: forwards;
+			width: 1400px;
+			height: 500px;
+			transition: 0.5s;
 		}
 
 	</style>
