@@ -1,0 +1,93 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span class="banner-left">The English Reading Assistant</span>
+
+{% endblock %}
+
+
+{% block body %}
+
+	
+	
+	<div id="passage">
+	{% for word in output %}
+		<span class="word">{{word}}</span>
+	{% endfor %}
+	</div>
+
+	<div id="definition">
+		placeholder
+	</div>
+	
+	
+	<style type="text/css">
+
+		.current{
+			color: brown;
+			background-color: yellow;
+		}
+
+		.selected{
+			background-color: gray;
+		}
+
+		#intro form{
+			float: right;
+			margin-right: 20px;
+		}
+
+		.banner-left{
+			float: left;
+		}
+
+		.banner-right{
+			float: right;
+			margin-right: 10px;
+		}
+	</style>
+
+	<script type="text/javascript">
+
+		var allwords = document.querySelector("#passage");
+
+		allwords.addEventListener("click", filterclick,false);
+
+		function filterclick(e) {
+    		if (e.target !== e.currentTarget) {
+        		definition = getdef(e.target.innerHTML);
+        		highlight(e.target.innerHTML);
+    		}
+    		e.stopPropagation();
+		}
+
+		function getdef(word){
+			const request = new XMLHttpRequest();
+            request.open('GET', `/definition/${word}`);
+            request.onload = () => {
+                const response = request.responseText;
+                document.querySelector("#definition").innerHTML = response;
+            };
+            request.send();
+		}
+
+		var previous = '';
+
+		function highlight(keyword){
+			var words = document.querySelectorAll(".word");
+			words.forEach( word => {
+					if (word.innerHTML == keyword) {
+						word.classList.add("current");
+						console.log("added!");
+					}
+					if (word.innerHTML == previous) {
+						word.classList.remove("current");
+						word.classList.add("selected");
+					}
+				}
+			);
+			previous = keyword;
+		}
+	</script>
+{% endblock %}
