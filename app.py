@@ -12,10 +12,7 @@ def index():
 @app.route("/recognition", methods=["POST"])
 def recognition():
 	script = request.form.get("script")
-	script = script.split()
-	output=[]
-	for word in script:
-		output.append(word)
+	output = script.split()
 
 	return render_template("processed.html", output=output)
 

@@ -1,0 +1,4 @@
+flask
+gunicorn
+urllib.request
+bs4
