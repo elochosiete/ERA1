@@ -42,8 +42,15 @@
 		}
 
 		#definition{
-			background-color: #edc5ed; 
+			background-color: #edc5ed;
 			color: #742574;
+			width: 13%;
+			min-width: 80px;
+			padding: 10px;
+			margin: auto;
+		}
+
+		#definitions{
 			overflow-y: auto;
 			position: fixed;
 			right: 0.7%;
@@ -63,7 +70,7 @@
 			font-size: 20px;
 			z-index: 1;
 		}
-		
+
 		#intro form textarea{
 			width: 600px;
 			height: 20px;
@@ -83,7 +90,7 @@
 
 </head>
 <body>
-	
+
 	<div id="intro">
 
 
@@ -94,11 +101,11 @@
 		<form class="banner-right" action="{{ url_for('recognition') }}" method="post" >
 			<textarea name="script" onfocus="focus()" onblur="blur()">
 			</textarea>
-			
+
 			<button>Submit</button>
 		</form>
 	</div>
-		
+
 
 
     {% block body %}
@@ -118,6 +125,6 @@
 
     </script>
 -->
-	
+
 </body>
 </html>

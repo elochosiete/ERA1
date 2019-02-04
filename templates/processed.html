@@ -9,19 +9,18 @@
 
 {% block body %}
 
-	
-	
+
+
 	<div id="passage">
 	{% for word in output %}
 		<span class="word">{{word}}</span>
 	{% endfor %}
 	</div>
 
-	<div id="definition">
-		placeholder
+	<div id="definitions">
 	</div>
-	
-	
+
+
 	<style type="text/css">
 
 		.current{
@@ -57,7 +56,7 @@
 
 		function filterclick(e) {
     		if (e.target !== e.currentTarget) {
-        		definition = getdef(e.target.innerHTML);
+        		getdef(e.target.innerHTML);
         		highlight(e.target.innerHTML);
     		}
     		e.stopPropagation();
@@ -68,7 +67,10 @@
             request.open('GET', `/definition/${word}`);
             request.onload = () => {
                 const response = request.responseText;
-                document.querySelector("#definition").innerHTML = response;
+								newblock = document.createElement("div");
+								newblock.classList.add("definition");
+                newblock.innerHTML = response;
+								document.querySelector("#definitions").appendChild(newblock);
             };
             request.send();
 		}
@@ -80,7 +82,6 @@
 			words.forEach( word => {
 					if (word.innerHTML == keyword) {
 						word.classList.add("current");
-						console.log("added!");
 					}
 					if (word.innerHTML == previous) {
 						word.classList.remove("current");
