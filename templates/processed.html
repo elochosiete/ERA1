@@ -12,8 +12,12 @@
 
 
 	<div id="passage">
-	{% for word in output %}
-		<span class="word">{{word}}</span>
+	{% for p in output %}
+		<p>
+			{% for word in p.split(' ') %}
+				<span class="word">{{word}}</span>
+			{% endfor %}
+		</p>
 	{% endfor %}
 	</div>
 
@@ -67,10 +71,11 @@
             request.open('GET', `/definition/${word}`);
             request.onload = () => {
                 const response = request.responseText;
-								newblock = document.createElement("div");
+								const newblock = document.createElement("div");
 								newblock.classList.add("definition");
                 newblock.innerHTML = response;
-								document.querySelector("#definitions").appendChild(newblock);
+								const definitions = document.querySelector("#definitions");
+								definitions.insertBefore(newblock,definitions.childNodes[0]);
             };
             request.send();
 		}

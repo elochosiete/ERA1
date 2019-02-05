@@ -12,7 +12,8 @@ def index():
 @app.route("/recognition", methods=["POST"])
 def recognition():
 	script = request.form.get("script")
-	output = script.split()
+	print(script)
+	output = script.split('\n')
 
 	return render_template("processed.html", output=output)
 
@@ -29,12 +30,12 @@ def definition(word):
 def purify(astr):
     alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     for i in astr:
-        if i not in alphabet:
+        if i not in alphabet or i is not '\'':
             astr = astr.replace(i,' ')
     astr = astr.replace(' s ', ' ')
     astr = astr.replace(' ll ', ' ')
     astr = astr.replace(' m ', ' ')
-    
+
     return astr + ' '
 
 #工具
@@ -47,9 +48,9 @@ def lookupword(word):
     soup = BeautifulSoup(page, 'html.parser')
 
     name_box = soup.find('div', attrs={'class': 'resultbox'})
-    
+
     try:
-        name = name_box.text.strip() 
+        name = name_box.text.strip()
     except AttributeError:
         return 'not found'
     else:
