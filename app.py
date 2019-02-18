@@ -36,6 +36,7 @@ def purify(astr):
     astr = astr.replace(' ll', ' ')
     astr = astr.replace(' m', ' ')
     astr = astr.replace(' ve', ' ')
+    astr = astr.replace(' t', ' ')
 
     return astr + ' '
 

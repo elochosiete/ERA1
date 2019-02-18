@@ -50,7 +50,26 @@
 			float: right;
 			margin-right: 10px;
 		}
+
+		.blockbody{
+			animation-name: expand;
+			animation-duration: 2s;
+			transition: max-height 2s;
+			max-height:5000px;
+		}
+
+		div.blockbody.shrink{
+			transition: max-height 2s;
+  			max-height:0px;	
+  			overflow: hidden;
+		}
+
+		@keyframes expand{
+  			from{max-height:0px;}to{max-height:5000px;}
+		}
+
 	</style>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
 
@@ -61,9 +80,10 @@
 		function filterclick(e) {
     		if (e.target !== e.currentTarget) {
         		
+        		shrinkalldef();
         		getdef(e.target.innerHTML);
         		highlight(e.target.innerHTML);
-        		shrinkalldef();
+        		
     		}
     		e.stopPropagation();
 		}
@@ -90,6 +110,7 @@
 
                 newblock.appendChild(blockhead);
                 newblock.appendChild(blockbody);
+                newblock.setAttribute("onclick", "toggledef(this)")
 
 				const definitions = document.querySelector("#definitions");
 				definitions.insertBefore(newblock,definitions.childNodes[0]);
@@ -114,27 +135,23 @@
 			previous = keyword;
 		}
 
-		$(document).ready(function(){
+		
 
-			var defs = $(".definition");
-			var deftext = $(".blockbody");
-
-			for (var i = defs.length - 1; i >= 0; i--) {
-				defs[i].addEventListener('click',function(){
-					console.log(e.target);
-					deftext[i].slideToggle();
-				});
-			}
-		});
+		function toggledef(def){
+			console.log("toggle!");
+			def.children[1].classList.toggle("shrink");
+		}
+		
 
 
 
 		function shrinkalldef(){
-			var blockbodies = $(".blockbody");
+			console.log("shrink!");
+			var blockbodies = document.getElementsByClassName("blockbody");
 			console.log(blockbodies);
 			for (var i = blockbodies.length - 1; i >= 0; i--) {
 				console.log(blockbodies[i]);
-				blockbodies[i].slideUp("slow");
+				blockbodies[i].classList.add("shrink");
 			}
 		}
 	</script>
