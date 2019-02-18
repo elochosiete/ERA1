@@ -51,31 +51,48 @@
 			margin-right: 10px;
 		}
 	</style>
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script type="text/javascript">
 
 		var allwords = document.querySelector("#passage");
 
-		allwords.addEventListener("click", filterclick,false);
+		allwords.addEventListener("click", filterclick, false);
 
 		function filterclick(e) {
     		if (e.target !== e.currentTarget) {
+        		
         		getdef(e.target.innerHTML);
         		highlight(e.target.innerHTML);
+        		shrinkalldef();
     		}
     		e.stopPropagation();
 		}
+
+
 
 		function getdef(word){
 			const request = new XMLHttpRequest();
             request.open('GET', `/definition/${word}`);
             request.onload = () => {
+
                 const response = request.responseText;
-								const newblock = document.createElement("div");
-								newblock.classList.add("definition");
-                newblock.innerHTML = response;
-								const definitions = document.querySelector("#definitions");
-								definitions.insertBefore(newblock,definitions.childNodes[0]);
+
+				const blockbody = document.createElement("div");
+				const newblock = document.createElement("div");
+				const blockhead = document.createElement("div");
+
+				newblock.classList.add("definition");
+				blockhead.classList.add("blockhead");
+				blockbody.classList.add("blockbody");
+
+				blockhead.innerHTML = word;
+                blockbody.innerHTML = response;
+
+                newblock.appendChild(blockhead);
+                newblock.appendChild(blockbody);
+
+				const definitions = document.querySelector("#definitions");
+				definitions.insertBefore(newblock,definitions.childNodes[0]);
             };
             request.send();
 		}
@@ -95,6 +112,30 @@
 				}
 			);
 			previous = keyword;
+		}
+
+		$(document).ready(function(){
+
+			var defs = $(".definition");
+			var deftext = $(".blockbody");
+
+			for (var i = defs.length - 1; i >= 0; i--) {
+				defs[i].addEventListener('click',function(){
+					console.log(e.target);
+					deftext[i].slideToggle();
+				});
+			}
+		});
+
+
+
+		function shrinkalldef(){
+			var blockbodies = $(".blockbody");
+			console.log(blockbodies);
+			for (var i = blockbodies.length - 1; i >= 0; i--) {
+				console.log(blockbodies[i]);
+				blockbodies[i].slideUp("slow");
+			}
 		}
 	</script>
 {% endblock %}
